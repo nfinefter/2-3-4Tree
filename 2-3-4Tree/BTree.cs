@@ -10,6 +10,7 @@ namespace BTree
     public class Tree
     {
         private Node root;
+        public const int Degree = 3;
 
         public Tree()
         {
@@ -26,32 +27,57 @@ namespace BTree
 
             Node current = root;
 
-            int degree = current.Keys.Count + 1;
-
-            Insert(current, key, -1);
+            Insert(current, key);
         }
 
-        private void Insert(Node curr, int key, int index)
+        private void Insert(Node curr, int key)
         {
             if (curr == null)
             {
                 return;
             }
 
-            index++;
-            foreach (var item in curr.Keys)
+            if (curr.Children != null)
             {
-                if (item.CompareTo(key) > 0)
+                for (int i = 0; i < curr.Keys.Count; i++)
                 {
-                    Insert(curr.Children[index], key, index);
-                }
-                else
-                {
-                    //curr.Keys.Insert()
+                    if (key < curr.Keys[i])
+                    {
+                        Insert(curr.Children[i], key);
+                     
+                        //checks for split
+                        
+                        return;
+                    }
+                    else if ((key > curr.Keys[i] && curr.Keys.Count == i + 1) || key < curr.Keys[i + 1])
+                    {
+                        Insert(curr.Children[i + 1], key);
+
+                        //checks for split
+
+                        return;
+                    }
                 }
             }
+
+            for (int i = 0; i < curr.Keys.Count; i++)
+            {
+                if (key < curr.Keys[i])
+                {
+                    curr.Keys.Insert(i, key);
+                }
+                else if ((key > curr.Keys[i] && curr.Keys.Count == i + 1) || key < curr.Keys[i + 1])
+                {
+                    curr.Keys.Insert(i + 1, key);
+                }
+                if (curr.Keys.Count == Degree)
+                {
+                    return;
+                }
+            }
+
         }
-        public void Split(Node curr)
+        public void Split(Node curr, int key)
         {
 
         }
