@@ -43,17 +43,13 @@ namespace BTree
                 {
                     if (key < curr.Keys[i])
                     {
-                        Insert(curr.Children[i], key);
-                     
-                        //checks for split
-                        
+                        Insert(curr.Children[i], key);             
+
                         return;
                     }
                     else if ((key > curr.Keys[i] && curr.Keys.Count == i + 1) || key < curr.Keys[i + 1])
                     {
                         Insert(curr.Children[i + 1], key);
-
-                        //checks for split
 
                         return;
                     }
@@ -65,10 +61,20 @@ namespace BTree
                 if (key < curr.Keys[i])
                 {
                     curr.Keys.Insert(i, key);
+
+                    if (curr.Keys.Count > 3)
+                    {
+                        Split(curr);
+                    }
                 }
                 else if ((key > curr.Keys[i] && curr.Keys.Count == i + 1) || key < curr.Keys[i + 1])
                 {
                     curr.Keys.Insert(i + 1, key);
+
+                    if (curr.Keys.Count > 3)
+                    {
+                        Split(curr);
+                    }
                 }
                 if (curr.Keys.Count == Degree)
                 {
@@ -77,9 +83,9 @@ namespace BTree
             }
 
         }
-        public void Split(Node curr, int key)
+        public void Split(Node curr)
         {
-
+            //How do i move the last key up?
         }
     }
 }
