@@ -17,6 +17,8 @@ namespace BTree
             root = null;
         }
 
+
+        
         public void Insert(int key)
         {
             if (root == null)
@@ -25,9 +27,44 @@ namespace BTree
                 return;
             }
 
-            Node current = root;
+            Node curr = root;
 
-            Insert(current, key);
+            Insert(curr, key);
+
+            if (curr.Keys.Count == Degree)
+            {
+                if (curr.Children == null)
+                {
+                    Node Left = new Node(new List<int> { curr.Keys[0] });
+
+                    Node Right = new Node(new List<int> { curr.Keys[2] });
+
+                    curr.Keys.RemoveAt(0);
+                    curr.Keys.RemoveAt(1);
+                    curr.Children = new List<Node>() { Left, Right };
+                }
+                else
+                {
+                    Node Left = new Node(new List<int> { curr.Keys[0] });
+
+                    Node Right = new Node(new List<int> { curr.Keys[2] });
+
+                    curr.Keys.RemoveAt(0);
+                    curr.Keys.RemoveAt(1);
+
+                    Node newLeftChildren = curr.Children[0];
+                    Node newSecondChildren = curr.Children[1];
+
+                    Node newThirdChildren = curr.Children[2];
+                    Node newRightChildren = curr.Children[3];
+
+                    curr.Children = new List<Node>() { Left, Right};
+
+                    curr.Children[0].Children = new List<Node> { newLeftChildren, newSecondChildren};
+
+                    curr.Children[1].Children = new List<Node> { newThirdChildren, newRightChildren };
+                }
+            }
         }
 
         private void Insert(Node curr, int key)
@@ -53,7 +90,7 @@ namespace BTree
                     {
                         Insert(curr.Children[i + 1], key);
 
-                        SplitCheck(curr, i);
+                        SplitCheck(curr, i + 1);
 
                         return;
                     }
@@ -66,7 +103,7 @@ namespace BTree
                 {
                     curr.Keys.Insert(i, key);             
                 }
-                else if ((key > curr.Keys[i] && curr.Keys.Count == i + 1) || key < curr.Keys[i + 1])
+                else if ((key > curr.Keys[i] && curr.Keys.Count == i + 1) || key < curr.Keys[i])
                 {
                     curr.Keys.Insert(i + 1, key);
                 }
@@ -91,7 +128,8 @@ namespace BTree
 
             curr.Children.Insert(i + 1, newNode);
 
-            if (curr.Children[i].Children.Count != 0)
+
+            if (curr.Children[i].Children != null)
             {
                 List<Node> newChildren = new List<Node>();
 
@@ -102,9 +140,9 @@ namespace BTree
                     curr.Children[i].Children.RemoveAt(j);
                 }
 
-                curr.Children[i + 1].Children = newChildren;      
+                curr.Children[i + 1].Children = newChildren;
             }
-            //BugTest Splitting
+
             return;
         }
         public void SplitCheck(Node curr, int i)

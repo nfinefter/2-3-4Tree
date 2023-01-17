@@ -19,5 +19,24 @@ namespace BTree
             Keys = keys;
         }
 
+        public override string ToString()
+        {
+            string final = "";
+
+            for (int i = 0; i < Keys.Count; i++)
+            {
+                final += Keys[i] + " ";
+            }
+
+            final += "||||||";
+
+            for (int i = 0; i < Children.Count; i++)
+            {
+                final += Children[i] + " ";
+            }
+
+            return final;
+        }
+
     }
 }

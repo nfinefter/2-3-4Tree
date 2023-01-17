@@ -8,7 +8,7 @@ namespace UnitTesting
         public void Insert()
         {
             Tree tree = new Tree();
-            for (int i = 10; i < 60; i+= 10)
+            for (int i = 10; i < 160; i+= 10)
             {
                 tree.Insert(i);
             }
