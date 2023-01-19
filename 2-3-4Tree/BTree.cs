@@ -86,7 +86,7 @@ namespace BTree
 
                         return;
                     }
-                    else if ((key > curr.Keys[i] && curr.Keys.Count == i + 1) || key < curr.Keys[i + 1])
+                    else if (curr.Keys.Count == i + 1 || key < curr.Keys[i + 1])
                     {
                         Insert(curr.Children[i + 1], key);
 
@@ -101,11 +101,13 @@ namespace BTree
             {
                 if (key < curr.Keys[i])
                 {
-                    curr.Keys.Insert(i, key);             
+                    curr.Keys.Insert(i, key);
+                    return;
                 }
-                else if ((key > curr.Keys[i] && curr.Keys.Count == i + 1) || key < curr.Keys[i])
+                else if (curr.Keys.Count == i + 1 || key < curr.Keys[i + 1])
                 {
                     curr.Keys.Insert(i + 1, key);
+                    return;
                 }
                 if (curr.Keys.Count == Degree)
                 {

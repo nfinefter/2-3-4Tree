@@ -28,13 +28,6 @@ namespace BTree
                 final += Keys[i] + " ";
             }
 
-            final += "||||||";
-
-            for (int i = 0; i < Children.Count; i++)
-            {
-                final += Children[i] + " ";
-            }
-
             return final;
         }
 
